@@ -41,12 +41,19 @@ func (mu *mutex) Lock() {
 	if atomic.CompareAndSwapInt32(&mu.state, 0, 1) {
 		return
 	}
+
+	// Slow path: the lock is held, so we enter a loop to wait/check
 	for {
+		// Attempt to signal our presence by incrementing the state.
+		// NOTE: In this specific implementation, state > 1 is treated as a failure.
 		atomic.AddInt32(&mu.state, 1)
 		s := atomic.LoadInt32(&mu.state)
+
 		if s > 1 {
+			// This implementation panics if there is ANY contention (waiters > 0)
 			panic("all goroutines are asleep - deadlock!")
 		}
+		// If the state is 1, it means that the mutex is locked
 		if s == 1 {
 			return
 		}
@@ -57,5 +64,24 @@ func (mu *mutex) Unlock() {
 	for atomic.CompareAndSwapInt32(&mu.state, 1, 0) {
 		return
 	}
+	// If the state is not 1, it means that the mutex is unlocked
 	panic("unlock of unlocked mutex")
 }
+
+/*
+func (mu *mutex) Lock() {
+	// Keep trying to change state from 0 (unlocked) to 1 (locked)
+	for !atomic.CompareAndSwapInt32(&mu.state, 0, 1) {
+		// Yield the processor to let other goroutines run
+		// This prevents "deadlocking" the CPU while waiting
+		runtime.Gosched()
+	}
+}
+
+func (mu *mutex) Unlock() {
+	// Change state from 1 back to 0
+	if !atomic.CompareAndSwapInt32(&mu.state, 1, 0) {
+		panic("unlock of unlocked mutex")
+	}
+}
+*/
