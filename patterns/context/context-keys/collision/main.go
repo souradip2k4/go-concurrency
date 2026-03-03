@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"concurrency/patterns/context/context-keys/colision/mycontext"
+	"concurrency/patterns/context/context-keys/collision/mycontext"
 )
 
 const ctxKey = "ctxKey"
