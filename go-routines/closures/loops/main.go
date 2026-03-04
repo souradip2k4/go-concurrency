@@ -9,7 +9,7 @@ type request func()
 
 func main() {
 	requests := make([]request, 0)
-	for i := 1; i <= 100; i++ {
+	for i := 1; i <= 15; i++ {
 		f := func() {
 			time.Sleep(200 * time.Millisecond)
 			// the value will be accessed from heap
