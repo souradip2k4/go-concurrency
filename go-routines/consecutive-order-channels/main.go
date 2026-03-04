@@ -6,6 +6,11 @@ import (
 )
 
 func main() {
+	start := time.Now()
+	defer func() {
+		fmt.Printf("total time: %v\n", time.Since(start))
+	}()
+
 	done := make(chan struct{})
 	go task1(done)
 	<-done

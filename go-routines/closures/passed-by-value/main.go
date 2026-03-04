@@ -7,15 +7,9 @@ type person struct {
 }
 
 func main() {
-	n := 10
-	if n := ten(); n == 10 {
-		fmt.Println("we got ten")
-		n = 11
-	}
-	fmt.Println("n", n)
-	tryToUpdateByValue()
-	//tryToUpdateByIndex()
-	//tryToUpdateByReference()
+	// tryToUpdateByValue()
+	// tryToUpdateByIndex()
+	tryToUpdateByReference()
 }
 
 func tryToUpdateByValue() {
@@ -68,7 +62,6 @@ func tryToUpdateByReference() {
 
 	fmt.Println("trying to update people names")
 	for _, p := range people {
-		fmt.Println(p.name)
 		p.name = "Anonymous"
 	}
 
@@ -76,8 +69,4 @@ func tryToUpdateByReference() {
 	for _, p := range people {
 		fmt.Println(p.name)
 	}
-}
-
-func ten() int {
-	return 10
 }

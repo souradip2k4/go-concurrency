@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"runtime"
 	"sync"
 	"time"
 )
@@ -9,13 +10,21 @@ import (
 var wg sync.WaitGroup
 
 func main() {
+	// Set the number of logical processors to 1 so parallel execution doesn't happen
+	// True concurrency
+	runtime.GOMAXPROCS(1)
+	start := time.Now()
+	defer func() {
+		fmt.Printf("total time: %v\n", time.Since(start))
+	}()
+
 	wg.Add(1)
 	go task1()
-	wg.Wait()
+	// wg.Wait() // Uncommenting would cause sequential execution
 
 	wg.Add(1)
 	go task2()
-	wg.Wait()
+	// wg.Wait()
 
 	wg.Add(1)
 	go task3()
