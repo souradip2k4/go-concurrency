@@ -1,3 +1,26 @@
 .idea/
 .DS_Store
 *_generated.go
+.vscode/
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built by `go test -c`
+*.test
+
+# Output of the go build command
+# It is highly recommended to build into this directory:
+# go build -o bin/
+/bin/
+
+# Professional tip: Because Go binaries on Linux have no extension,
+# they are hard to ignore with a wildcard.
+# You can ignore specific common binary names if you use them consistently:
+main
+app
+server
